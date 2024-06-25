@@ -12,30 +12,27 @@ import path from "path";
 dotenv.config({ path: "./config/config.env" });
 const app = express();
 
-const port = process.env.PORT;
+const port = 8000;
 
 connectDB();
 
-const allowedOrigins = [
-  "https://main.d1sj7cd70hlter.amplifyapp.com",
-  "https://expense-tracker-app-three-beryl.vercel.app",
-  // add more origins as needed
-];
-
 // Middleware
 app.use(express.json());
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  })
-);
 app.use(helmet());
-app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// Configure CORS
+app.use(cors()); // Allow all origins
+
+// If you need to allow specific origins, you can do so like this:
+// const corsOptions = {
+//   origin: ['http://example1.com', 'http://example2.com'], // Replace with your allowed origins
+//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//   optionsSuccessStatus: 204
+// };
+// app.use(cors(corsOptions));
 
 // Router
 app.use("/api/v1", transactionRoutes);

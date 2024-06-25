@@ -57,9 +57,9 @@ const Register = () => {
     e.preventDefault();
 
       const {name, email, password} = values;
-
+      console.log({name, email, password});
       setLoading(false);
-     
+      console.log(registerAPI)
       const {data} = await axios.post(registerAPI, {
         name,
         email,
